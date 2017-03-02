@@ -40,10 +40,10 @@ $functions = [
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_change_category' => [
-        'classname'     => 'theme_snap\\webservice\\ws_change_category',
-        'methodname'    => 'change_category',
-        'description'   => 'Add or remove a category from the user course menu',
+    'theme_snap_user_categories' => [
+        'classname'     => 'theme_snap\\webservice\\ws_user_categories',
+        'methodname'    => 'user_categories',
+        'description'   => 'add or remove a category from the user course menu - also can return listing of categories',
         'type'          => 'write',
         'ajax'          => true,
         'loginrequired' => true

@@ -33,15 +33,57 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
         var PersonalCourseMenu = function() {
 
 
-            var doAjax = function() {
+            var doAjax = function(action, categoryid) {
+
+                // if (action == "remove") {
+                //     $(".menu_mycategory[data-categoryid="+categoryid+"]").css('color', '#b1f9ff');
+                // } else if (action == "add") {
+                //     $(".menu_mycategory[data-categoryid="+categoryid+"]").css('color', 'white');
+                // }
+
                 console.log('Call change_category ajax.');
                 ajax.call([
                     {
-                        methodname: 'theme_snap_change_category',
-                        args: {userid: 2, categoryid: 2, add: 1},
+                        methodname: 'theme_snap_user_categories',
+                        args: {userid: 2, action: action, categoryid: categoryid},
                         done: function(response) {
                             console.log('Change category ajax answer:');
                             console.log(response);
+
+
+                            // hide all courses
+                            $(".courseinfo").css('display', 'none');
+                            $(".menu_mycategory").css('color', '#b1f9ff');
+
+
+                            var categoriestitle = 'Categories: ';
+                            var categories = JSON.parse(response.listing);
+                            if (categories.length == 0) {
+                                // and open category selector
+                                $('.editcat').click();
+                            } else {
+                                // only display the selected categories
+                                console.log(categories);
+                                var firstcategory = true;
+                                categories.forEach(
+                                    function(item, index) {
+                                        $("[data-categoryid="+item+"]").css('display', 'inline');
+                                        $(".menu_mycategory[data-categoryid="+item+"]").css('color', 'white');
+                                        // Add the category name to the menu categories title.
+                                        if (!firstcategory) {
+                                            categoriestitle = categoriestitle + ', ';
+                                        } else {
+                                            firstcategory = false;
+                                        }
+                                        var categorymenuoption = '#menu_mycategory_'+item;
+                                        console.log($(categorymenuoption));
+                                        categoriestitle = categoriestitle + $(categorymenuoption).text();
+                                    }
+                                );
+                            }
+                            h2.text(categoriestitle);
+
+                            // if not empty then hide all the courses not in the currently selected categories + show
                         },
                         fail: function(response) {
                             console.log('Change category ajax error');
@@ -50,8 +92,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                     }
                 ], true, true);
             };
-
-            doAjax();
 
             var dropdown = '<div style="display:inline" class="dropdown" >' +
                 '<button style="border:0px" class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="coursesorting">' +
@@ -69,67 +109,21 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
 
             var h2 = $('section#fixy-my-courses div h2');
-            // h2.append(dropdown);
-
-
-            // var menuhtml = '<div class="snapcoursesortingmenu" style="display: none;position: absolute;margin-top: 30px;' +
-            //     'z-index: 100;background-color: white;min-width: 150px;padding: 16px;border: 1px;box-shadow: 4px 3px 5px 0px rgba(125,125,125,0.45)">' +
-            //     '<small style="cursor:pointer;margin-left: 6px">' +
-            //     'All courses<br/><br/>' +
-            //     'Favorites<br/><br/>' +
-            //     'Categories<br/><br/>' +
-            //     '----------<br/><br/>' +
-            //     'Teacher | A-Z' +
-            //         '</small>' +
-            //     '</div>';
-
-
-            // $('#menu_allcourses').click(function() {
-            //     $('#dropdownMenu1').text('All courses');
-            //     $('#dropdownMenu1').append('<span class="caret"></span>');
-            //     $("[data-courseid='2']").css('display', 'inline-block');
-            //     $("[data-courseid='3']").css('display', 'inline-block');
-            //     $("[data-courseid='4']").css('display', 'inline-block');
-            //     $("[data-courseid='5']").css('display', 'inline-block');
-            //     $("[data-courseid='6']").css('display', 'inline-block');
-            //     $("[data-courseid='7']").css('display', 'inline-block');
-            //     $("[data-courseid='8']").css('display', 'inline-block');
-            //     $("[data-courseid='9']").css('display', 'inline-block');
-            // });
-            // $('#menu_favorites').click(function() {
-            //     $('#dropdownMenu1').text('Favorites');
-            //     $('#dropdownMenu1').append('<span class="caret"></span>');
-            //     $("[data-courseid='3']").css('display', 'inline-block');
-            //     $("[data-courseid='4']").css('display', 'inline-block');
-            //     $("[data-courseid='2']").css('display', 'none');
-            //     $("[data-courseid='5']").css('display', 'none');
-            //     $("[data-courseid='6']").css('display', 'none');
-            //     $("[data-courseid='7']").css('display', 'none');
-            //     $("[data-courseid='8']").css('display', 'none');
-            //     $("[data-courseid='9']").css('display', 'none');
-            // });
-            // $('#btnGroupVerticalDrop1').click(function() {
-            //     $('#dropdownMenu1').text('Category: Physics');
-            //     $('#dropdownMenu1').append('<span class="caret"></span>');
-            //     $("[data-courseid='2']").css('display', 'none');
-            //     $("[data-courseid='3']").css('display', 'inline-block');
-            //     $("[data-courseid='4']").css('display', 'none');
-            //     $("[data-courseid='5']").css('display', 'none');
-            //     $("[data-courseid='6']").css('display', 'none');
-            //     $("[data-courseid='7']").css('display', 'inline-block');
-            //     $("[data-courseid='8']").css('display', 'inline-block');
-            //     $("[data-courseid='9']").css('display', 'none');
-            // });
 
             // Add a down arrow at the end of the course title.
 
             $('.menu_mycategory_li').click(
                 function() {
                     console.log($(this).css('color'));
-                    if ($(this).find( '.menu_mycategory' ).css('color') == 'rgb(255, 255, 255)') {
-                        $(this).find( '.menu_mycategory' ).css('color', '#b1f9ff');
+                    var selectmenuoption = $(this).find( '.menu_mycategory' );
+                    if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
+                        console.log('removing');
+                        selectmenuoption.css('color', '#b1f9ff');
+                        doAjax('remove', selectmenuoption.attr('data-categoryid'));
                     } else {
-                        $(this).find( '.menu_mycategory' ).css('color', 'white');
+                        selectmenuoption.css('color', 'white');
+                        console.log(selectmenuoption.attr('data-categoryid'));
+                        doAjax('add', selectmenuoption.attr('data-categoryid'));
                     }
 
                 }
@@ -159,77 +153,15 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             $('#azbutton').css('transition', 'opacity 0.05s ease');
             $('#catbutton .svg-icon').css('transition', 'opacity 0.1s ease');
 
-
-
             var menuopen = false;
-            // $('.editcat').click(function(e) {
-            //     e.stopPropagation();
-            //     //$('#myModal').modal('show');
-            //
-            //
-            //     if (menuopen) {
-            //
-            //         $('#leftsidepanel').css('width', '7%');
-            //         $('#fixy-my-courses').css('width', '68%');
-            //
-            //         $('#catbutton .svg-icon').css('visibility', 'visible');
-            //         $('#catbutton').css('position', 'inherit');
-            //         $('#catbutton').css('top', 'inherit');
-            //         $('#catbutton').css('left', 'inherit');
-            //         $('#catbutton').css('margin', '20px');
-            //         $('#catbutton').css('height', '60px');
-            //         $('#catbutton').css('width', '60px');
-            //
-            //
-            //         $('#allcoursesbutton').css('visibility', 'visible');
-            //         $('#azbutton').css('visibility', 'visible');
-            //
-            //
-            //
-            //         menuopen = false;
-            //     } else {
-            //
-            //         $('#fixy-my-courses').css('width', '65%');
-            //         $('#leftsidepanel').css('width', '10%');
-            //
-            //
-            //         $('#allcoursesbutton').css('visibility', 'hidden');
-            //         $('#azbutton').css('visibility', 'hidden');
-            //
-            //         $('#catbutton .svg-icon').css('visibility', 'hidden');
-            //
-            //         $('#catbutton').css('position', 'absolute');
-            //         $('#catbutton').css('top', '0');
-            //         $('#catbutton').css('left', '0');
-            //         $('#catbutton').css('margin', '0');
-            //         $('#catbutton').css('margin-right', '20px');
-            //         $('#catbutton').css('height', '800px');
-            //         $('#catbutton').css('width', '100%');
-            //
-            //         menuopen = true;
-            //     }
-            //
-            //     // Velocity(document.querySelectorAll('#catbutton'),
-            //     //     { left: "100px" }
-            //     //     , 100);
-            // });
-
-
 
             $("input:radio[id='option2']").change(
                 function(){
                     if ($(this).is(':checked')) {
-                        h2.text('Category: Physics');
-                        $('.editcat').css('visibility', 'visible');
-                        $("[data-courseid='2']").css('display', 'none');
-                        $("[data-courseid='3']").css('display', 'inline-block');
-                        $("[data-courseid='4']").css('display', 'none');
-                        $("[data-courseid='5']").css('display', 'none');
-                        $("[data-courseid='6']").css('display', 'none');
-                        $("[data-courseid='7']").css('display', 'inline-block');
-                        $("[data-courseid='8']").css('display', 'inline-block');
-                        $("[data-courseid='9']").css('display', 'none');
 
+                        doAjax('listing');
+
+                        $('.editcat').css('visibility', 'visible');
                     }
                     });
 

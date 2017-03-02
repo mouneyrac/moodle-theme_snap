@@ -886,7 +886,7 @@ class theme_snap_core_renderer extends toc_renderer {
 
                 $mycategories[$course->category] = $course->category;
 
-                $ccard = new course_card($course->id);
+                $ccard = new course_card($course);
                 $coursecard = $this->render($ccard);
 
                 // If course is not visible.
@@ -916,7 +916,7 @@ class theme_snap_core_renderer extends toc_renderer {
                 $categoryname = $DB->get_field('course_categories', 'name', array('id' => $mycategory));
                 $mycategories[$mycategory] = $categoryname;
                 $categoryhtmllisting .= '<li style="margin: 26px;cursor:pointer;" class="menu_mycategory_li">
-                    <span class="menu_mycategory" id="menu_mycategory_"'.$mycategory.' href="#" style="color: #b1f9ff;">'
+                    <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
                         .$categoryname.'</span></li>';
 
             }
