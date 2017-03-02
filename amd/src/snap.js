@@ -25,8 +25,10 @@
  * Main snap initialising function.
  */
 define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'theme_snap/personal_menu',
-        'theme_snap/responsive_video', 'theme_snap/section_asset_movement', 'theme_snap/cover_image'],
-    function($, bsjq, log, Headroom, personalMenu, responsiveVideo, sectionAssetMovement, coverImage) {
+        'theme_snap/responsive_video', 'theme_snap/section_asset_movement', 'theme_snap/cover_image',
+        'theme_snap/personalcoursemenu'],
+    function($, bsjq, log, Headroom, personalMenu, responsiveVideo, sectionAssetMovement, coverImage,
+             personalCourseMenu) {
 
         'use strict';
 

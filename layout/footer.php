@@ -97,7 +97,74 @@ $poweredbyrunby = get_string('poweredbyrunby', 'theme_snap', $builtwith);
 <?php echo $OUTPUT->standard_footer_html(); ?>
 </div>
 </footer>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Select categories</h4>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group" data-toggle="buttons">
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Alphabet
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Boat Design
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Course Design
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Dance
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Economy
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Football
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > GST
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Horticulture
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Information Technology
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Jar design
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Koala training
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Lamp Design
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off"> Mathematics
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Origami
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off" > Rat labs
+                    </label>
+                    <label style="margin:10px" class="btn btn-primary active">
+                        <input type="checkbox" autocomplete="off" checked> Physics
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php echo $OUTPUT->standard_end_of_body_html() ?>
+<script src="http://moodles.bepaw.com/stable_30_snap_uop/theme/snap/pushy/js/pushy.min.js"></script>
 <!-- bye! -->
 </body>
 </html>
