@@ -854,12 +854,21 @@ class theme_snap_core_renderer extends toc_renderer {
 
             $coursesmenu = get_string('courses');
 
-            $courselist .= '<section style="width:68%"  id="fixy-my-courses"><div class="clearfix">
+            $courselist .= '<section style="width:75%"  id="fixy-my-courses"><div class="clearfix">
             <div>
-                <h2 style="float:left">' .$coursesmenu. '</h2>
-                <span style="cursor:pointer;color:#3bcedb;padding-left: 10px;
-    font-size: small;visibility: hidden" class="editcat menu-btn">change</span>
+                <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
+                <button style="background: transparent;cursor:pointer;color:#3bcedb;padding-left: 10px;
+    font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
             </div>
+            <div style="
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+" ><div >
+    <span class="allcourses" tabindex=0 style="display:none;    cursor: pointer;"><a>Display all courses</a> | </span>
+    <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a> | </span>
+    <span class="azsorting" tabindex=0 style="cursor: pointer;"><a>Sort by A to Z</a> </span> 
+    </div></div>  
            
             ';
             //$courselist .= $this->course_sorting_button();
@@ -912,10 +921,14 @@ class theme_snap_core_renderer extends toc_renderer {
             $courserenderer = $PAGE->get_renderer('core', 'course');
 //            $content = $courserenderer->course_category($categoryid);
             $categoryhtmllisting = '';
+            $firstcategory = '';
             foreach($mycategories as $mycategory) {
                 $categoryname = $DB->get_field('course_categories', 'name', array('id' => $mycategory));
                 $mycategories[$mycategory] = $categoryname;
-                $categoryhtmllisting .= '<li style="margin: 26px;cursor:pointer;" class="menu_mycategory_li">
+                if (empty($firstcategory)) {
+                    $firstcategory = 'menu_mycategory_li_'.$mycategory;
+                }
+                $categoryhtmllisting .= '<li tabindex=0 id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
                     <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
                         .$categoryname.'</span></li>';
 
@@ -980,7 +993,7 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             
             
-             <nav class="pushy pushy-left" style="background-color: #3bcedb">
+             <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" style="background-color: #3bcedb">
     <div class="pushy-content">
         <div class="selectcat">Select categories</div>
         <ul> ' . $categoryhtmllisting . '
@@ -1000,7 +1013,8 @@ class theme_snap_core_renderer extends toc_renderer {
                     height: 100%;
                     display: inline-block;
                     width: 7%;
-                    float: left;" > 
+                    float: left;
+                    display: none;" >   
                     
                    
 

@@ -35,12 +35,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             var doAjax = function(action, categoryid) {
 
-                // if (action == "remove") {
-                //     $(".menu_mycategory[data-categoryid="+categoryid+"]").css('color', '#b1f9ff');
-                // } else if (action == "add") {
-                //     $(".menu_mycategory[data-categoryid="+categoryid+"]").css('color', 'white');
-                // }
-
                 console.log('Call change_category ajax.');
                 ajax.call([
                     {
@@ -112,40 +106,66 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             // Add a down arrow at the end of the course title.
 
-            $('.menu_mycategory_li').click(
-                function() {
-                    console.log($(this).css('color'));
-                    var selectmenuoption = $(this).find( '.menu_mycategory' );
-                    if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
-                        console.log('removing');
-                        selectmenuoption.css('color', '#b1f9ff');
-                        doAjax('remove', selectmenuoption.attr('data-categoryid'));
-                    } else {
-                        selectmenuoption.css('color', 'white');
-                        console.log(selectmenuoption.attr('data-categoryid'));
-                        doAjax('add', selectmenuoption.attr('data-categoryid'));
-                    }
-
+            var menu_mycategory_li_callback = function(element) {
+                console.log('display the color:');
+                console.log(element);
+                console.log(element.css('color'));
+                var selectmenuoption = element.find( '.menu_mycategory' );
+                if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
+                    console.log('removing');
+                    selectmenuoption.css('color', '#b1f9ff');
+                    doAjax('remove', selectmenuoption.attr('data-categoryid'));
+                } else {
+                    selectmenuoption.css('color', 'white');
+                    console.log(selectmenuoption.attr('data-categoryid'));
+                    doAjax('add', selectmenuoption.attr('data-categoryid'));
                 }
+
+            };
+
+            var menu_mycategory_li_callback_this = function() {
+                menu_mycategory_li_callback($(this));
+            }
+
+
+            $('.menu_mycategory_li').click(
+                menu_mycategory_li_callback_this
             );
+
+            $(".menu_mycategory_li").keypress(function() {
+                console.log(event.which);
+                var element = $(this);
+                if (event.which == 13 || event.which == 32) menu_mycategory_li_callback(element);
+            });
 
             // h2.append('<small style="cursor:pointer;margin-left: 6px">sorting</small>');
             h2.text('All courses');
-            $("input:radio[id='option1']").change(
-                function(){
-                    if ($(this).is(':checked')) {
-                        h2.text('All Courses');
-                        $('.editcat').css('visibility', 'hidden');
-                        $("[data-courseid='2']").css('display', 'none');
-                        $("[data-courseid='3']").css('display', 'inline-block');
-                        $("[data-courseid='4']").css('display', 'inline-block');
-                        $("[data-courseid='5']").css('display', 'inline-block');
-                        $("[data-courseid='6']").css('display', 'inline-block');
-                        $("[data-courseid='7']").css('display', 'inline-block');
-                        $("[data-courseid='8']").css('display', 'inline-block');
-                        $("[data-courseid='9']").css('display', 'inline-block');
-                    }
-                    });
+            var allcourses_callback = function(){
+
+                h2.text('All Courses');
+                $('.editcat').css('visibility', 'hidden');
+                $("[data-courseid='2']").css('display', 'none');
+                $("[data-courseid='3']").css('display', 'inline-block');
+                $("[data-courseid='4']").css('display', 'inline-block');
+                $("[data-courseid='5']").css('display', 'inline-block');
+                $("[data-courseid='6']").css('display', 'inline-block');
+                $("[data-courseid='7']").css('display', 'inline-block');
+                $("[data-courseid='8']").css('display', 'inline-block');
+                $("[data-courseid='9']").css('display', 'inline-block');
+
+                $(".courseinfo").css('display', 'inline-block');
+
+                $(".catfilter").css('display', 'inline');
+                $(".allcourses").css('display', 'none');
+            };
+            $(".allcourses").click(
+                allcourses_callback
+            );
+            $(".allcourses").keypress(function() {
+                console.log(event.which);
+                if (event.which == 13 || event.which == 32) allcourses_callback();
+            });
+
 
             $('#leftsidepanel').css('transition', 'width 0.1s');
             $('#catbutton').css('transition', 'position 0.1s, top 0.1s, left 0.1s, margin 0.1s, height 0.1s, width 0.1s');
@@ -155,18 +175,65 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             var menuopen = false;
 
-            $("input:radio[id='option2']").change(
-                function(){
-                    if ($(this).is(':checked')) {
+            var catfilter_callback = function(){
 
-                        doAjax('listing');
 
-                        $('.editcat').css('visibility', 'visible');
-                    }
-                    });
+
+                doAjax('listing');
+
+                $('.editcat').css('visibility', 'visible');
+
+                $(".catfilter").css('display', 'none');
+                $(".allcourses").css('display', 'inline');
+
+            };
+
+            $(".catfilter").click(
+                catfilter_callback);
+
+            $(".catfilter").keypress(function() {
+                console.log(event.which);
+                if (event.which == 13 || event.which == 32) catfilter_callback();
+            });
+
+            var azsorting_callback = function(){
+                var $courses = $('#fixy-visible-courses'), $coursediv = $courses.children('div');
+
+                $coursediv.sort(function(a,b){
+
+                    var an = $(a).find('.coursefullname').text(),
+                        bn = $(b).find('.coursefullname').text();
+
+                    console.log('value of a');
+                    console.log($(a));
+                    console.log('value of an');
+                    console.log(an);
+
+                    return an.localeCompare(bn);
+
+                    // if(an > bn) {
+                    //     return 1;
+                    // }
+                    // if(an < bn) {
+                    //     return -1;
+                    // }
+                    // return 0;
+                });
+
+                $coursediv.detach().appendTo($courses);
+
+            };
+            $(".azsorting").click(azsorting_callback);
+
+            $(".azsorting").keypress(function() {
+                console.log(event.which);
+                if (event.which == 13 || event.which == 32) azsorting_callback();
+            });
 
 
         }
+
+
 
         return new PersonalCourseMenu();
 
