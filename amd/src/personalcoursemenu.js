@@ -33,16 +33,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
         var PersonalCourseMenu = function() {
 
             var doAjax = function(action, categoryid) {
-
-                console.log('Call change_category ajax.');
                 ajax.call([
                     {
                         methodname: 'theme_snap_user_categories',
                         args: {userid: 2, action: action, categoryid: categoryid},
                         done: function(response) {
-                            console.log('Change category ajax answer:');
-                            console.log(response);
-
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").css('color', '#b1f9ff');
@@ -51,13 +46,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             var categories = JSON.parse(response.listing);
                             if (categories.length == 0) {
                                 // and open category selector
-                                console.log($('.site-overlay').css('display'));
                                if($('.site-overlay').css('display') == 'none') {
                                    $('.editcat').click();
                                }
                             } else {
                                 // only display the selected categories
-                                console.log(categories);
                                 var firstcategory = true;
                                 categories.forEach(
                                     function(item, index) {
@@ -70,7 +63,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                             firstcategory = false;
                                         }
                                         var categorymenuoption = '#menu_mycategory_'+item;
-                                        console.log($(categorymenuoption));
                                         categoriestitle = categoriestitle + $(categorymenuoption).text();
                                     }
                                 );
@@ -82,7 +74,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             // if not empty then hide all the courses not in the currently selected categories + show
                         },
                         fail: function(response) {
-                            console.log('Change category ajax error');
                             notification.exception(response);
                         }
                     }
@@ -113,11 +104,9 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             );
 
             $(".menu_mycategory_li").keypress(function() {
-                var element = $(this);
-                if (event.which == 13 || event.which == 32) menu_mycategory_li_callback(element);
+                if (event.which == 13 || event.which == 32) menu_mycategory_li_callback($(this));
             });
-
-            // h2.append('<small style="cursor:pointer;margin-left: 6px">sorting</small>');
+            
             h2.text('All courses');
             var allcourses_callback = function(){
 

@@ -58,7 +58,7 @@ class ws_user_categories extends \external_api {
      * @return array
      */
     public static function user_categories($userid, $categoryid, $action) {
-        
+
         // Parameter validation.
         $params = self::validate_parameters(
             self::user_categories_parameters(),
@@ -71,7 +71,6 @@ class ws_user_categories extends \external_api {
 
         $usercategories = get_user_preferences('theme_snap_menu_categories');
         $usercategories = (array) json_decode($usercategories);
-
 
         $catid = $params['categoryid'];
         switch ($params['action']) {

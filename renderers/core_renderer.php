@@ -776,22 +776,19 @@ class theme_snap_core_renderer extends toc_renderer {
 
             $coursesmenu = get_string('courses');
 
-            $courselist .= '<section style="width:75%"  id="fixy-my-courses"><div class="clearfix">
-            <div>
-                <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
-                <button style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
-    font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
-            </div>
-            <div style="
-    font-size: small;
-    margin: 0px;
-    padding: 0px;
-" ><div >
-    <span class="allcourses" tabindex=0 style="display:none;    cursor: pointer;"><a>Display all courses</a></span>
-    <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a></span>
-    </div></div>  
-           
-            ';
+            $courselist .= '
+                <section style="width:75%"  id="fixy-my-courses">
+                    <div class="clearfix">
+                        <div>
+                            <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
+                            <button style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
+                                font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
+                        </div>
+                        <div style="font-size: small;margin: 0px;padding: 0px;" >
+                            <span class="allcourses" tabindex=0 style="display:none;cursor: pointer;"><a>Display all courses</a></span>
+                            <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a></span>
+                        </div>
+                    </div>';
 
             $courselist .= '<div style="margin-top: 20px" id="fixy-visible-courses">';
 
@@ -844,9 +841,12 @@ class theme_snap_core_renderer extends toc_renderer {
                 if (empty($firstcategory)) {
                     $firstcategory = 'menu_mycategory_li_'.$mycategory;
                 }
-                $categoryhtmllisting .= '<li tabindex=0 id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
-                    <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
-                        .$categoryname.'</span></li>';
+                $categoryhtmllisting .= '
+                    <li tabindex=0 id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
+                        <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
+                            .$categoryname.'
+                        </span>
+                    </li>';
 
             }
 
@@ -905,25 +905,21 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             </div>
             </div>
-            
-            
-             <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" style="background-color: #3bcedb">
-    <div class="pushy-content">
-        <div class="selectcat">Select categories</div>
-        <ul> ' . $categoryhtmllisting . '
-        </ul>
-    </div>
-</nav>
+            <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" style="background-color: #3bcedb">
+                <div class="pushy-content">
+                    <div class="selectcat">Select categories</div>
+                    <ul> ' . $categoryhtmllisting . ' </ul>
+                </div>
+            </nav>
 
-<!-- Site Overlay -->
-<div class="site-overlay"></div>
-     
-        <div id="fixy-content">
-        
-'.$courselist.$this->render_callstoaction().'
-        </div><!-- end fixy-content -->
-        </div><!-- end fixy-inner -->
-        </nav><!-- end primary nav -->';
+            <!-- Site Overlay -->
+            <div class="site-overlay"></div>
+         
+            <div id="fixy-content">
+                '.$courselist.$this->render_callstoaction().'
+            </div><!-- end fixy-content -->
+            </div><!-- end fixy-inner -->
+            </nav><!-- end primary nav -->';
         }
         return $output;
     }
