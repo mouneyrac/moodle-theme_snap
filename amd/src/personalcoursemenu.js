@@ -43,18 +43,19 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                         done: function(response) {
                             console.log('Change category ajax answer:');
                             console.log(response);
-
-
+                            
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").css('color', '#b1f9ff');
-
 
                             var categoriestitle = 'Categories: ';
                             var categories = JSON.parse(response.listing);
                             if (categories.length == 0) {
                                 // and open category selector
-                                $('.editcat').click();
+                                console.log($('.site-overlay').css('display'));
+                               if($('.site-overlay').css('display') == 'none') {
+                                   $('.editcat').click();
+                               }
                             } else {
                                 // only display the selected categories
                                 console.log(categories);
@@ -76,6 +77,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                 );
                             }
                             h2.text(categoriestitle);
+
+                            $('.editcat').css('visibility', 'visible');
 
                             // if not empty then hide all the courses not in the currently selected categories + show
                         },
@@ -177,11 +180,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             var catfilter_callback = function(){
 
-
+                h2.text('Categories: ');
 
                 doAjax('listing');
 
-                $('.editcat').css('visibility', 'visible');
+
 
                 $(".catfilter").css('display', 'none');
                 $(".allcourses").css('display', 'inline');

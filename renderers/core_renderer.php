@@ -857,7 +857,7 @@ class theme_snap_core_renderer extends toc_renderer {
             $courselist .= '<section style="width:75%"  id="fixy-my-courses"><div class="clearfix">
             <div>
                 <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
-                <button style="background: transparent;cursor:pointer;color:#3bcedb;padding-left: 10px;
+                <button style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
     font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
             </div>
             <div style="
@@ -865,9 +865,8 @@ class theme_snap_core_renderer extends toc_renderer {
     margin: 0px;
     padding: 0px;
 " ><div >
-    <span class="allcourses" tabindex=0 style="display:none;    cursor: pointer;"><a>Display all courses</a> | </span>
-    <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a> | </span>
-    <span class="azsorting" tabindex=0 style="cursor: pointer;"><a>Sort by A to Z</a> </span> 
+    <span class="allcourses" tabindex=0 style="display:none;    cursor: pointer;"><a>Display all courses</a></span>
+    <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a></span>
     </div></div>  
            
             ';
