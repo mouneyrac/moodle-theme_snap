@@ -38,7 +38,7 @@ use theme_snap\renderables\login_alternative_methods;
 class theme_snap_core_renderer extends toc_renderer {
 
     public function course_footer() {
-        global $DB, $COURSE, $CFG;
+        global $DB, $COURSE, $CFG, $PAGE;
 
         // Note: This check will be removed for Snap 2.7.
         if (empty($PAGE->theme->settings->coursefootertoggle)) {
@@ -399,26 +399,6 @@ class theme_snap_core_renderer extends toc_renderer {
         return $output;
     }
 
-    /**
-     * Course Filter in the fixy menu.
-     *
-     * @return string
-     */
-    public function course_sorting_button() {
-        global $OUTPUT;
-
-        $langstring = 'browseallcourses';
-        $iconname = 'sort';
-        $url = new moodle_url('/course/');
-
-        $text = get_string($langstring, 'theme_snap');
-        $iconurl = $OUTPUT->pix_url($iconname, 'theme');
-        $icon = '<img class="svg-icon" role="presentation" src="' .$iconurl. '">';
-        $link = '<a class="snap-personal-menu-more" style="left:10" href="' .$url. '"> ' .$icon. '</a>';
-
-        return $icon;
-    }
-
 
     /**
      * Render messages from users
@@ -702,7 +682,7 @@ class theme_snap_core_renderer extends toc_renderer {
      *
      */
     public function fixed_menu() {
-        global $CFG, $USER, $DB, $PAGE;
+        global $CFG, $USER, $DB;
 
         $logout = get_string('logout');
         $isguest = isguestuser();
@@ -794,64 +774,6 @@ class theme_snap_core_renderer extends toc_renderer {
             // Create courses array with favorites first.
             $mycourses = $favorited + $notfavorited;
 
-            $coursesmenu = '<div style="display:inline" class="dropdown" >' .
-                '<a style="border:0px;color:#565656;cursor:pointer" class="dropdown-toggle" type="button" id="dropdownMenu1" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="coursemenu">' .
-                'All courses' .
-                '<span class="caret"></span>' .
-                '</a>' .
-                '<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">' .
-                '<li><a href="#" id="menu_allcourses">All courses</a></li>' .
-                '<li><a href="#" id="menu_favorites">Favorites</a></li>' .
-                '<li role="separator" class="divider"></li>' .
-                '<li class="dropdown-submenu" id="menu_categories"><a href="#">Physics</a></li>' .
-                '</ul>' .
-                '</div>';
-
-
-
-
-            $coursesmenu = '<div style="display:inline" class="dropdown" >' .
-                '<a style="border:0px;color:#565656;cursor:pointer" class="dropdown-toggle" type="button" id="dropdownMenu1" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="coursemenu">' .
-                'All courses' .
-                '<span class="caret"></span>' .
-                '</a>' .
-                '<ul class="dropdown-menu multi-column columns-3"  aria-labelledby="dropdownMenu1">
-		            <div class="row">
-			            <div class="col-sm-4">
-				            <ul class="multi-column-dropdown">
-					            <li><a href="#"  id="menu_allcourses">All courses</a></li>
-					            <li><a href="#" id="menu_favorites">Favorites</a></li>
-					            <li role="separator" class="divider"></li>
-					            <li><a href="#" id="menu_categories">Physics</a></li>
-					            <li><a href="#">Dance</a></li>
-					            
-				            </ul>
-			            </div>
-			            <div class="col-sm-4">
-				            <ul class="multi-column-dropdown">
-					            <li style="visibility: hidden"><a href="#"> .</a></li>
-					            <li style="visibility: hidden"><a href="#"> .</a></li>
-					            <li  style="visibility: hidden" role="separator" class="divider"></li>					         
-					            <li><a href="#">Mathematics</a></li>
-					            <li><a href="#">Geography</a></li>
-					            
-				            </ul>
-			            </div>
-			            <div class="col-sm-4">
-				            <ul class="multi-column-dropdown">
-					            <li style="visibility: hidden"><a href="#"> .</a></li>
-					            <li style="visibility: hidden"><a href="#"> .</a></li>
-					            <li  style="visibility: hidden" role="separator" class="divider"></li>				         
-					            <li><a href="#">Sport</a> </li>
-					            <li style="visibility: hidden"><a href="#"> .</a> </li>
-				            </ul>
-			            </div>
-		            </div>
-	            </ul>' .
-                '</div>';
-
             $coursesmenu = get_string('courses');
 
             $courselist .= '<section style="width:75%"  id="fixy-my-courses"><div class="clearfix">
@@ -870,7 +792,7 @@ class theme_snap_core_renderer extends toc_renderer {
     </div></div>  
            
             ';
-            //$courselist .= $this->course_sorting_button();
+
             $courselist .= '<div style="margin-top: 20px" id="fixy-visible-courses">';
 
             // Default text when no courses.
@@ -887,8 +809,6 @@ class theme_snap_core_renderer extends toc_renderer {
             $actualhiddencount = 0;
 
             $mycategories = array();
-
-
 
             foreach ($mycourses as $course) {
 
@@ -915,10 +835,7 @@ class theme_snap_core_renderer extends toc_renderer {
                 }
             }
 
-
             // Retrieve categories names.
-            $courserenderer = $PAGE->get_renderer('core', 'course');
-//            $content = $courserenderer->course_category($categoryid);
             $categoryhtmllisting = '';
             $firstcategory = '';
             foreach($mycategories as $mycategory) {
@@ -932,8 +849,6 @@ class theme_snap_core_renderer extends toc_renderer {
                         .$categoryname.'</span></li>';
 
             }
-//            $categoryhtmllisting .=  $courserenderer->frontpage_combo_list();
-            error_log(print_r($mycategories, true));
 
             $courselist .= '</div>';
             $courselist .= $this->browse_all_courses_button();
@@ -1002,65 +917,10 @@ class theme_snap_core_renderer extends toc_renderer {
 
 <!-- Site Overlay -->
 <div class="site-overlay"></div>
-
-
-        <div id="leftsidepanel" style="margin: 0;
-                    position: relative;
-                    padding: 0;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    display: inline-block;
-                    width: 7%;
-                    float: left;
-                    display: none;" >   
-                    
-                   
-
-
-
-                    
-                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group"> 
-                   
-                    
-                    <div class="btn-group-vertical" data-toggle="buttons">
-                      <label id="allcoursesbutton" style="border:0px;height: 60px; width: 60px; margin: 20px;" class="btn btn-primary active">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked>
-                        <img style="max-width: none;margin-left: -4px;margin-top: 4px;" class="svg-icon" role="presentation" src="http://moodles.bepaw.com/stable_30_snap_uop/theme/image.php/snap/theme/1485313132/calendar">
-                        <div id="allcoursesbutton_text" style="margin-top: -4px;font-size: x-small;margin-left: -10px;">All courses</div>
-                      </label>
-                      <label id="catbutton" style="z-index:10;border:0px;height: 60px; width: 60px; margin: 20px;" class="btn btn-primary">
-                        <input type="radio" name="options" id="option2" autocomplete="off" data-toggle="modal" data-target="#myModal">
-                        <img style="max-width: none;margin-left: -4px;margin-top: 4px;" class="svg-icon" role="presentation" src="http://moodles.bepaw.com/stable_30_snap_uop/theme/image.php/snap/theme/1485313132/courses">        
-                        <div id="catbutton_text" style="margin-top: -4px;font-size: x-small;margin-left: -10px;">Categories</div>
-                      </label>
-                      
-                    </div>
-                    
-                    <!--label style="border:0px;height: 60px; width: 60px; margin: 20px;" class="btn btn-primary">
-                        <input type="radio" name="options" id="option2" autocomplete="off" data-toggle="modal" data-target="#myModal">
-                        <img style="max-width: none;margin-left: -4px;margin-top: 4px;" class="svg-icon" role="presentation" src="http://moodles.bepaw.com/stable_30_snap_uop/theme/image.php/snap/theme/1485313132/more">        
-                      </label-->
-                    
-                    <button id="azbutton" style="border:0px;height: 60px; width: 60px; margin-left: 20px;outline:0;" type="button" class="btn btn-default">
-                    <img style="max-width: none;margin-left: -4px;margin-top: 4px;" class="svg-icon" role="presentation" src="http://moodles.bepaw.com/stable_30_snap_uop/theme/image.php/snap/theme/1485313132/more2">
-                    <div id="azbutton_text" style="margin-top: -4px;font-size: x-small;">A-Z</div>
-                    </button> 
-                    
-                    
-                    </div>
-                    
-                    
-                    
-                    
-                    </div>
-                    
-                
+     
         <div id="fixy-content">
         
-'
-
-            .$courselist.$this->render_callstoaction().'
+'.$courselist.$this->render_callstoaction().'
         </div><!-- end fixy-content -->
         </div><!-- end fixy-inner -->
         </nav><!-- end primary nav -->';

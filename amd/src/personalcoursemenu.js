@@ -32,7 +32,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
          */
         var PersonalCourseMenu = function() {
 
-
             var doAjax = function(action, categoryid) {
 
                 console.log('Call change_category ajax.');
@@ -43,7 +42,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                         done: function(response) {
                             console.log('Change category ajax answer:');
                             console.log(response);
-                            
+
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").css('color', '#b1f9ff');
@@ -90,37 +89,15 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 ], true, true);
             };
 
-            var dropdown = '<div style="display:inline" class="dropdown" >' +
-                '<button style="border:0px" class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="coursesorting">' +
-                'filter' +
-                '<span class="caret"></span>' +
-               '</button>' +
-                '<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">' +
-                '<li><a href="#">All courses</a></li>' +
-                '<li><a href="#">Favorites</a></li>' +
-            '<li class="dropdown-submenu"><a href="#">Categories</a></li>' +
-            '<li role="separator" class="divider"></li>' +
-                '<li><a href="#">Teacher | A-Z</a></li>' +
-            '</ul>' +
-            '</div>';
-
-
             var h2 = $('section#fixy-my-courses div h2');
 
-            // Add a down arrow at the end of the course title.
-
             var menu_mycategory_li_callback = function(element) {
-                console.log('display the color:');
-                console.log(element);
-                console.log(element.css('color'));
                 var selectmenuoption = element.find( '.menu_mycategory' );
                 if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
-                    console.log('removing');
                     selectmenuoption.css('color', '#b1f9ff');
                     doAjax('remove', selectmenuoption.attr('data-categoryid'));
                 } else {
                     selectmenuoption.css('color', 'white');
-                    console.log(selectmenuoption.attr('data-categoryid'));
                     doAjax('add', selectmenuoption.attr('data-categoryid'));
                 }
 
@@ -136,7 +113,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             );
 
             $(".menu_mycategory_li").keypress(function() {
-                console.log(event.which);
                 var element = $(this);
                 if (event.which == 13 || event.which == 32) menu_mycategory_li_callback(element);
             });
@@ -147,14 +123,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 h2.text('All Courses');
                 $('.editcat').css('visibility', 'hidden');
-                $("[data-courseid='2']").css('display', 'none');
-                $("[data-courseid='3']").css('display', 'inline-block');
-                $("[data-courseid='4']").css('display', 'inline-block');
-                $("[data-courseid='5']").css('display', 'inline-block');
-                $("[data-courseid='6']").css('display', 'inline-block');
-                $("[data-courseid='7']").css('display', 'inline-block');
-                $("[data-courseid='8']").css('display', 'inline-block');
-                $("[data-courseid='9']").css('display', 'inline-block');
 
                 $(".courseinfo").css('display', 'inline-block');
 
@@ -165,26 +133,14 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 allcourses_callback
             );
             $(".allcourses").keypress(function() {
-                console.log(event.which);
                 if (event.which == 13 || event.which == 32) allcourses_callback();
             });
-
-
-            $('#leftsidepanel').css('transition', 'width 0.1s');
-            $('#catbutton').css('transition', 'position 0.1s, top 0.1s, left 0.1s, margin 0.1s, height 0.1s, width 0.1s');
-            $('#allcoursesbutton').css('transition', 'opacity 0.05s ease');
-            $('#azbutton').css('transition', 'opacity 0.05s ease');
-            $('#catbutton .svg-icon').css('transition', 'opacity 0.1s ease');
-
-            var menuopen = false;
 
             var catfilter_callback = function(){
 
                 h2.text('Categories: ');
 
                 doAjax('listing');
-
-
 
                 $(".catfilter").css('display', 'none');
                 $(".allcourses").css('display', 'inline');
@@ -195,48 +151,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 catfilter_callback);
 
             $(".catfilter").keypress(function() {
-                console.log(event.which);
                 if (event.which == 13 || event.which == 32) catfilter_callback();
             });
 
-            var azsorting_callback = function(){
-                var $courses = $('#fixy-visible-courses'), $coursediv = $courses.children('div');
-
-                $coursediv.sort(function(a,b){
-
-                    var an = $(a).find('.coursefullname').text(),
-                        bn = $(b).find('.coursefullname').text();
-
-                    console.log('value of a');
-                    console.log($(a));
-                    console.log('value of an');
-                    console.log(an);
-
-                    return an.localeCompare(bn);
-
-                    // if(an > bn) {
-                    //     return 1;
-                    // }
-                    // if(an < bn) {
-                    //     return -1;
-                    // }
-                    // return 0;
-                });
-
-                $coursediv.detach().appendTo($courses);
-
-            };
-            $(".azsorting").click(azsorting_callback);
-
-            $(".azsorting").keypress(function() {
-                console.log(event.which);
-                if (event.which == 13 || event.which == 32) azsorting_callback();
-            });
-
-
         }
-
-
 
         return new PersonalCourseMenu();
 

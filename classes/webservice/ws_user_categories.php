@@ -58,8 +58,7 @@ class ws_user_categories extends \external_api {
      * @return array
      */
     public static function user_categories($userid, $categoryid, $action) {
-        global $USER;
-
+        
         // Parameter validation.
         $params = self::validate_parameters(
             self::user_categories_parameters(),
@@ -70,8 +69,6 @@ class ws_user_categories extends \external_api {
             )
         );
 
-       //set_user_preference('theme_snap_menu_categories', false);
-
         $usercategories = get_user_preferences('theme_snap_menu_categories');
         $usercategories = (array) json_decode($usercategories);
 
@@ -81,25 +78,14 @@ class ws_user_categories extends \external_api {
             case 'add':
                 $usercategories[$catid] = $catid;
                 set_user_preference('theme_snap_menu_categories', json_encode($usercategories));
-                error_log(print_r('adding cat ' . $catid, true));
-                error_log(print_r($usercategories, true));
                 break;
             case 'remove':
-                error_log(print_r('removing cat ' . $catid, true));
-                error_log(print_r($usercategories, true));
-//                if(($key = array_search($catid, $usercategories)) !== false) {
-//                    unset($usercategories[$key]);
-//                }
                 $usercategories = array_diff($usercategories, array($catid));
-                //unset($usercategories[$catid]);
-                error_log(print_r($usercategories, true));
                 set_user_preference('theme_snap_menu_categories', json_encode($usercategories));
                 break;
             default:
                 break;
         }
-
-
 
         $listing = "[";
         $notfirstitem = false;
@@ -112,8 +98,6 @@ class ws_user_categories extends \external_api {
             $listing .= $categoryid;
         }
         $listing .= "]";
-
-
 
         return array('listing' => $listing);
     }
