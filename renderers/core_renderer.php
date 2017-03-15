@@ -781,7 +781,9 @@ class theme_snap_core_renderer extends toc_renderer {
                     <div class="clearfix">
                         <div>
                             <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
-                            <button style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
+                            <button aria-label="change categories menu" title="change categories menu" 
+                                role="button" aria-controls="pushy" aria-expanded="false"
+                                style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
                                 font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
                         </div>
                         <div style="font-size: small;margin: 0px;padding: 0px;" >
@@ -842,7 +844,7 @@ class theme_snap_core_renderer extends toc_renderer {
                     $firstcategory = 'menu_mycategory_li_'.$mycategory;
                 }
                 $categoryhtmllisting .= '
-                    <li tabindex=0 id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
+                    <li tabindex=0  id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
                         <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
                             .$categoryname.'
                         </span>
@@ -906,7 +908,7 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             </div>
             <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" style="background-color: #3bcedb">
-                <div class="pushy-content">
+                <div class="pushy-content" tabindex=0  >
                     <div class="selectcat">Select categories</div>
                     <ul> ' . $categoryhtmllisting . ' </ul>
                 </div>

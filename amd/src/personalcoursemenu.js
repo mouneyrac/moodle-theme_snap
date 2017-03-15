@@ -91,7 +91,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                     selectmenuoption.css('color', 'white');
                     doAjax('add', selectmenuoption.attr('data-categoryid'));
                 }
-
             };
 
             var menu_mycategory_li_callback_this = function() {
@@ -106,7 +105,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             $(".menu_mycategory_li").keypress(function() {
                 if (event.which == 13 || event.which == 32) menu_mycategory_li_callback($(this));
             });
-            
+
             h2.text('All courses');
             var allcourses_callback = function(){
 
@@ -126,22 +125,64 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             });
 
             var catfilter_callback = function(){
-
                 h2.text('Categories: ');
 
                 doAjax('listing');
 
                 $(".catfilter").css('display', 'none');
                 $(".allcourses").css('display', 'inline');
-
             };
 
-            $(".catfilter").click(
-                catfilter_callback);
+            $(".catfilter").click(catfilter_callback);
 
             $(".catfilter").keypress(function() {
                 if (event.which == 13 || event.which == 32) catfilter_callback();
             });
+
+
+            var editcat_callback = function(){
+                // set the button as expanded.
+                console.log("Active the change categories menu button");
+                console.log($(".editcat").attr('aria-expanded'));
+                if($(".editcat").attr('aria-expanded') == 'true') {
+                    $(".editcat").attr('aria-expanded', 'false');
+                } else {
+                    $(".editcat").attr('aria-expanded', 'true');
+                }
+            };
+            $(".editcat").click(editcat_callback);
+            $(".editcat").keypress(function() {
+                if (event.which == 13 || event.which == 32) editcat_callback();
+            });
+
+            $(".editcat").keydown(function() {
+
+                // Do not exit the change category menu if menu is expanded.
+                console.log(event.which );
+                if (event.which == 9) {
+                    console.log("Tab on the change categories menu button");
+                    console.log($(".editcat").attr('aria-expanded'));
+                    if($(".editcat").attr('aria-expanded') == 'true') {
+                        console.log("focus on the first menu item");
+                        $('.pushy-content').focus();
+                    }
+                }
+            });
+
+
+            $(".menu_mycategory").keypress(function() {
+                if (event.which == 27) {
+                    console.log("Escape from the select categories menu");
+                    $(".editcat").attr('aria-expanded', 'false')
+                };
+            });
+
+            $(".site-overlay").click(
+                function() {
+                    console.log("Exit from the select categories menu");
+                    $(".editcat").attr('aria-expanded', 'false')
+                }
+            );
 
         }
 
