@@ -789,7 +789,7 @@ class theme_snap_core_renderer extends toc_renderer {
                             <span class="allcourses" tabindex=0 ><a>Display all courses</a></span>
                             <span class="catfilter" tabindex=0 ><a>Filter by categories</a></span>
                         </div>
-                    </div>';
+                    ';
 
             $courselist .= '<div id="fixy-visible-courses">';
 
