@@ -845,7 +845,7 @@ class theme_snap_core_renderer extends toc_renderer {
                 }
                 $categoryhtmllisting .= '
                     <li tabindex=0  id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
-                        <span data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
+                        <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
                             .$categoryname.'
                         </span>
                     </li>';

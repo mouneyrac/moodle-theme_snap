@@ -71,6 +71,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                             $('.editcat').css('visibility', 'visible');
 
+
                             // if not empty then hide all the courses not in the currently selected categories + show
                         },
                         fail: function(response) {
@@ -142,8 +143,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             var editcat_callback = function(){
                 // set the button as expanded.
-                console.log("Active the change categories menu button");
-                console.log($(".editcat").attr('aria-expanded'));
                 if($(".editcat").attr('aria-expanded') == 'true') {
                     $(".editcat").attr('aria-expanded', 'false');
                 } else {
@@ -152,34 +151,30 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             };
             $(".editcat").click(editcat_callback);
             $(".editcat").keypress(function() {
-                if (event.which == 13 || event.which == 32) editcat_callback();
+                //somehow do not need to use keypress as keypress on the pushy button triggers a click! Must be inside pushy code.
+                //if (event.which == 13 || event.which == 32) editcat_callback();
             });
 
             $(".editcat").keydown(function() {
 
                 // Do not exit the change category menu if menu is expanded.
-                console.log(event.which );
                 if (event.which == 9) {
-                    console.log("Tab on the change categories menu button");
-                    console.log($(".editcat").attr('aria-expanded'));
                     if($(".editcat").attr('aria-expanded') == 'true') {
-                        console.log("focus on the first menu item");
                         $('.pushy-content').focus();
                     }
                 }
             });
 
-
-            $(".menu_mycategory").keypress(function() {
+            $("body").keydown(function() {
                 if (event.which == 27) {
-                    console.log("Escape from the select categories menu");
-                    $(".editcat").attr('aria-expanded', 'false')
+                    if($(".editcat").attr('aria-expanded') == 'true') {
+                        $(".editcat").attr('aria-expanded', 'false')
+                    }
                 };
             });
 
             $(".site-overlay").click(
                 function() {
-                    console.log("Exit from the select categories menu");
                     $(".editcat").attr('aria-expanded', 'false')
                 }
             );
