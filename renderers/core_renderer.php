@@ -777,22 +777,21 @@ class theme_snap_core_renderer extends toc_renderer {
             $coursesmenu = get_string('courses');
 
             $courselist .= '
-                <section style="width:75%"  id="fixy-my-courses">
+                <section id="fixy-my-courses">
                     <div class="clearfix">
                         <div>
-                            <h2 style="float:left;margin-bottom: 0;">' .$coursesmenu. '</h2>
+                            <h2 class="user_category_menu_title">' .$coursesmenu. '</h2>
                             <button aria-label="change categories menu" title="change categories menu" 
                                 role="button" aria-controls="pushy" aria-expanded="false"
-                                style="background: transparent;cursor:pointer;color:#3bcedb;margin:0px;padding-left: 10px;
-                                font-size: small;visibility: hidden" class="editcat menu-btn" tabindex=0 >change</button>
+                                class="editcat menu-btn" tabindex=0 >change</button>
                         </div>
-                        <div style="font-size: small;margin: 0px;padding: 0px;" >
-                            <span class="allcourses" tabindex=0 style="display:none;cursor: pointer;"><a>Display all courses</a></span>
-                            <span class="catfilter" tabindex=0 style="cursor: pointer;"><a>Filter by categories</a></span>
+                        <div class="user_category_filter_links">
+                            <span class="allcourses" tabindex=0 ><a>Display all courses</a></span>
+                            <span class="catfilter" tabindex=0 ><a>Filter by categories</a></span>
                         </div>
                     </div>';
 
-            $courselist .= '<div style="margin-top: 20px" id="fixy-visible-courses">';
+            $courselist .= '<div id="fixy-visible-courses">';
 
             // Default text when no courses.
             if (!$mycourses) {
@@ -844,8 +843,8 @@ class theme_snap_core_renderer extends toc_renderer {
                     $firstcategory = 'menu_mycategory_li_'.$mycategory;
                 }
                 $categoryhtmllisting .= '
-                    <li tabindex=0  id="menu_mycategory_li_'.$mycategory.'" style="margin: 26px;cursor:pointer;" class="pushy-submenu menu_mycategory_li">
-                        <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#" style="color: #b1f9ff;">'
+                    <li tabindex=0  id="menu_mycategory_li_'.$mycategory.'" class="pushy-submenu menu_mycategory_li">
+                        <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#">'
                             .$categoryname.'
                         </span>
                     </li>';
@@ -907,7 +906,7 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             </div>
             </div>
-            <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" style="background-color: #3bcedb">
+            <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" >
                 <div class="pushy-content" tabindex=0  >
                     <div class="selectcat">Select categories</div>
                     <ul> ' . $categoryhtmllisting . ' </ul>
