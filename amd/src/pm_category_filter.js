@@ -21,7 +21,7 @@
  */
 
 /**
- * Personal course menu.
+ * Category filter of the personal menu.
  */
 define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
     function($, log, ajax, notification) {
@@ -30,7 +30,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
          * Personal Menu (courses menu).
          * @constructor
          */
-        var PersonalCourseMenu = function() {
+        var CategoryFilter = function() {
 
             var doAjax = function(action, categoryid) {
                 ajax.call([
@@ -40,7 +40,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                         done: function(response) {
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
-                            $(".menu_mycategory").css('color', '#b1f9ff');
+                            $(".menu_mycategory").removeClass('menu_mycategory_selected');
 
                             var categoriestitle = 'Categories: ';
                             var categories = JSON.parse(response.listing);
@@ -55,7 +55,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                 categories.forEach(
                                     function(item, index) {
                                         $("[data-categoryid="+item+"]").css('display', 'inline');
-                                        $(".menu_mycategory[data-categoryid="+item+"]").css('color', 'white');
+                                        $(".menu_mycategory[data-categoryid="+item+"]").addClass('menu_mycategory_selected');
                                         $("#menu_mycategory_li_"+item).attr('aria-checked', 'true');
                                         // Add the category name to the menu categories title.
                                         if (!firstcategory) {
@@ -86,13 +86,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
             var menu_mycategory_li_callback = function(element) {
                 var selectmenuoption = element.find( '.menu_mycategory' );
-                if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
+                if (selectmenuoption.hasClass('menu_mycategory_selected')) {
                     element.attr('aria-checked', false);
-                    selectmenuoption.css('color', '#b1f9ff');
+                    selectmenuoption.removeClass('menu_mycategory_selected');
                     doAjax('remove', selectmenuoption.attr('data-categoryid'));
                 } else {
                     element.attr('aria-checked', true);
-                    selectmenuoption.css('color', 'white');
+                    selectmenuoption.addClass('menu_mycategory_selected');
                     doAjax('add', selectmenuoption.attr('data-categoryid'));
                 }
             };
@@ -184,7 +184,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
         }
 
-        return new PersonalCourseMenu();
+        return new CategoryFilter();
 
     }
 );

@@ -59,6 +59,8 @@ class ws_user_categories extends \external_api {
      */
     public static function user_categories($userid, $categoryid, $action) {
 
+        //TODO: support for querying someone else preferences (don't forget to check permissions, probably only admins.)
+
         // Parameter validation.
         $params = self::validate_parameters(
             self::user_categories_parameters(),
