@@ -59,21 +59,7 @@ if (!empty($coverimagecss)) {
     echo "<style>$coverimagecss</style>";
 }
 ?>
-
-
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js"></script>
-    <script src="//cdn.jsdelivr.net/velocity/1.4.0/velocity.ui.min.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
-<!--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">-->
-    <link rel="stylesheet" href="http://moodles.bepaw.com/stable_30_snap_uop/theme/snap/pushy/css/pushy.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-<!--    <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>-->
-
-
-
+    <link rel="stylesheet" href="<?php echo $CFG->httpswwwroot ?>/theme/snap/pushy/css/pushy.css">
 
 </head>
 
