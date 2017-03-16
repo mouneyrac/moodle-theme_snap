@@ -56,6 +56,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                     function(item, index) {
                                         $("[data-categoryid="+item+"]").css('display', 'inline');
                                         $(".menu_mycategory[data-categoryid="+item+"]").css('color', 'white');
+                                        $("#menu_mycategory_li_"+item).attr('aria-checked', 'true');
                                         // Add the category name to the menu categories title.
                                         if (!firstcategory) {
                                             categoriestitle = categoriestitle + ', ';
@@ -86,9 +87,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             var menu_mycategory_li_callback = function(element) {
                 var selectmenuoption = element.find( '.menu_mycategory' );
                 if (selectmenuoption.css('color') == 'rgb(255, 255, 255)') {
+                    element.attr('aria-checked', false);
                     selectmenuoption.css('color', '#b1f9ff');
                     doAjax('remove', selectmenuoption.attr('data-categoryid'));
                 } else {
+                    element.attr('aria-checked', true);
                     selectmenuoption.css('color', 'white');
                     doAjax('add', selectmenuoption.attr('data-categoryid'));
                 }

@@ -842,8 +842,8 @@ class theme_snap_core_renderer extends toc_renderer {
                 if (empty($firstcategory)) {
                     $firstcategory = 'menu_mycategory_li_'.$mycategory;
                 }
-                $categoryhtmllisting .= '
-                    <li tabindex=0  id="menu_mycategory_li_'.$mycategory.'" class="pushy-submenu menu_mycategory_li">
+                $categoryhtmllisting .= ' 
+                    <li role=checkbox aria-checked=false tabindex=0  id="menu_mycategory_li_'.$mycategory.'" class="pushy-submenu menu_mycategory_li">
                         <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#">'
                             .$categoryname.'
                         </span>
