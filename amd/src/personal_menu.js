@@ -22,8 +22,8 @@
 /**
  * Course card favoriting.
  */
-define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_snap/when_true'],
-    function($, log, Y, courseCards, whenTrue) {
+define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_snap/when_true', 'theme_snap/pm_category_filter'],
+    function($, log, Y, courseCards, whenTrue, categoryFilter) {
 
         /**
          * Personal Menu (courses menu).

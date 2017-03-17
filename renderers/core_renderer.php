@@ -682,7 +682,7 @@ class theme_snap_core_renderer extends toc_renderer {
      *
      */
     public function fixed_menu() {
-        global $CFG, $USER;
+        global $CFG, $USER, $DB;
 
         $logout = get_string('logout');
         $isguest = isguestuser();
@@ -774,7 +774,23 @@ class theme_snap_core_renderer extends toc_renderer {
             // Create courses array with favorites first.
             $mycourses = $favorited + $notfavorited;
 
-            $courselist .= '<section id="fixy-my-courses"><div class="clearfix"><h2>' .get_string('courses'). '</h2>';
+            $coursesmenu = get_string('courses');
+
+            $courselist .= '
+                <section id="fixy-my-courses">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="user_category_menu_title">' .$coursesmenu. '</h2>
+                            <button aria-label="change categories menu" title="change categories menu" 
+                                role="button" aria-controls="pushy" aria-expanded="false"
+                                class="editcat menu-btn" tabindex=0 >change</button>
+                        </div>
+                        <div class="user_category_filter_links">
+                            <span class="allcourses" tabindex=0 ><a>Display all courses</a></span>
+                            <span class="catfilter" tabindex=0 ><a>Filter by categories</a></span>
+                        </div>
+                    ';
+
             $courselist .= '<div id="fixy-visible-courses">';
 
             // Default text when no courses.
@@ -790,9 +806,13 @@ class theme_snap_core_renderer extends toc_renderer {
             // How many courses are actually hidden.
             $actualhiddencount = 0;
 
+            $mycategories = array();
+
             foreach ($mycourses as $course) {
 
-                $ccard = new course_card($course->id);
+                $mycategories[$course->category] = $course->category;
+
+                $ccard = new course_card($course);
                 $coursecard = $this->render($ccard);
 
                 // If course is not visible.
@@ -812,6 +832,25 @@ class theme_snap_core_renderer extends toc_renderer {
                     $courselist .= $coursecard;
                 }
             }
+
+            // Retrieve categories names.
+            $categoryhtmllisting = '';
+            $firstcategory = '';
+            foreach($mycategories as $mycategory) {
+                $categoryname = $DB->get_field('course_categories', 'name', array('id' => $mycategory));
+                $mycategories[$mycategory] = $categoryname;
+                if (empty($firstcategory)) {
+                    $firstcategory = 'menu_mycategory_li_'.$mycategory;
+                }
+                $categoryhtmllisting .= ' 
+                    <li role=checkbox aria-checked=false tabindex=0  id="menu_mycategory_li_'.$mycategory.'" class="pushy-submenu menu_mycategory_li">
+                        <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#">'
+                            .$categoryname.'
+                        </span>
+                    </li>';
+
+            }
+
             $courselist .= '</div>';
             $courselist .= $this->browse_all_courses_button();
             $courselist .= '</div>';
@@ -867,14 +906,21 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             </div>
             </div>
+            <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" >
+                <div class="pushy-content" tabindex=0  >
+                    <div class="selectcat">Select categories</div>
+                    <ul> ' . $categoryhtmllisting . ' </ul>
+                </div>
+            </nav>
 
-
-
-        <div id="fixy-content">'
-            .$courselist.$this->render_callstoaction().'
-        </div><!-- end fixy-content -->
-        </div><!-- end fixy-inner -->
-        </nav><!-- end primary nav -->';
+            <!-- Site Overlay -->
+            <div class="site-overlay"></div>
+         
+            <div id="fixy-content">
+                '.$courselist.$this->render_callstoaction().'
+            </div><!-- end fixy-content -->
+            </div><!-- end fixy-inner -->
+            </nav><!-- end primary nav -->';
         }
         return $output;
     }
