@@ -907,6 +907,9 @@ class theme_snap_core_renderer extends toc_renderer {
             </div>
             </div>
             <nav class="pushy pushy-left" data-focus="#'.$firstcategory.'" >
+                <a class="pushy-close-icon pull-right snap-action-icon" href="#" style="font-size: smaller;">
+                    <i class="icon icon-close"></i>
+                </a>
                 <div class="pushy-content" tabindex=0  >
                     <div class="selectcat">Select categories</div>
                     <ul> ' . $categoryhtmllisting . ' </ul>

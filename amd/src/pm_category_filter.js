@@ -182,6 +182,14 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 }
             );
 
+            // Close off-canvas menu when pressing on the button.
+            $(".pushy-close-icon").click(
+                function() {
+                    $('.site-overlay').click();
+                }
+            );
+
+
         }
 
         return new CategoryFilter();
