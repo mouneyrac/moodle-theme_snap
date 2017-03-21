@@ -42,7 +42,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").removeClass('menu_mycategory_selected');
 
-                            var categoriestitle = 'Categories: ';
+                            var categoriestitle = ' ';
                             var categories = JSON.parse(response.listing);
                             if (categories.length == 0) {
                                 // and open category selector
@@ -64,7 +64,24 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                             firstcategory = false;
                                         }
                                         var categorymenuoption = '#menu_mycategory_'+item;
+
                                         categoriestitle = categoriestitle + $(categorymenuoption).text();
+
+                                        // The title for desktop.
+                                        // TODO: replace this by 3 divs (always only one displayed), with 3 media queries
+                                        if ($('body').width() > 750) {
+                                            if (categoriestitle.length > 140 ) {
+                                                categoriestitle = categoriestitle.substr(0, 137) + "...";
+                                            }
+                                        } else if ($('body').width() > 500) {
+                                            if (categoriestitle.length > 103 ) {
+                                                categoriestitle = categoriestitle.substr(0, 100) + "...";
+                                            }
+                                        } else {
+                                            if (categoriestitle.length > 18 ) {
+                                                categoriestitle = categoriestitle.substr(0, 15) + "...";
+                                            }
+                                        }
                                     }
                                 );
                             }

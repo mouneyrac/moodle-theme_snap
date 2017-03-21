@@ -557,6 +557,7 @@ img.iconhelp:hover {
 }
 .pushy .pushy-close-icon {
     padding: 15px 15px;
+    font-size: smaller;
 }
 
 .selectcat {
@@ -574,9 +575,15 @@ img.iconhelp:hover {
     cursor:pointer;
     color: @link-color;
     margin:0px;
-    padding-left: 10px;
+    padding: 0 0 0 10px;
     font-size: small;
     visibility: hidden;
+}
+
+@media screen and (max-width: @screen-sm-min) {
+    .editcat.menu-btn {
+        vertical-align: super;
+    }
 }
 
 .user_category_filter_links {
