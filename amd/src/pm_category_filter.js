@@ -32,15 +32,35 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
          */
         var CategoryFilter = function() {
 
+            var viewingMode = function(value) {
+                ajax.call([
+                    {
+                        methodname: 'theme_snap_user_viewing_mode',
+                        args: {value: value},
+                        done: function(response) {
+                            if (value == "get") {
+                                if (response.value == 'categories') {
+                                    catfilter_callback();
+                                }
+                            }
+                        },
+                        fail: function(response) {
+                            notification.exception(response);
+                        }
+                    }
+                ], true, true);
+            };
+
+
             var doAjax = function(action, categoryid) {
                 ajax.call([
                     {
                         methodname: 'theme_snap_user_categories',
-                        args: {userid: 2, action: action, categoryid: categoryid},
+                        args: {action: action, categoryid: categoryid},
                         done: function(response) {
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
-                            $(".menu_mycategory").removeClass('menu_mycategory_selected');
+                            $(".menu_mycategory").prop('checked', false);
 
                             var categoriestitle = ' ';
                             var categories = JSON.parse(response.listing);
@@ -55,7 +75,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                 categories.forEach(
                                     function(item, index) {
                                         $("[data-categoryid="+item+"]").css('display', 'inline');
-                                        $(".menu_mycategory[data-categoryid="+item+"]").addClass('menu_mycategory_selected');
+                                        // $(".menu_mycategory[data-categoryid="+item+"]").addClass('menu_mycategory_selected');
+                                        $("[selected-categoryid="+item+"]").prop('checked', true);
                                         $("#menu_mycategory_li_"+item).attr('aria-checked', 'true');
                                         // Add the category name to the menu categories title.
                                         if (!firstcategory) {
@@ -65,10 +86,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                         }
                                         var categorymenuoption = '#menu_mycategory_'+item;
 
-                                        categoriestitle = categoriestitle + $(categorymenuoption).text();
+                                        categoriestitle = categoriestitle + $(categorymenuoption).attr('value');
 
                                         // The title for desktop.
                                         // TODO: replace this by 3 divs (always only one displayed), with 3 media queries
+                                        // TODO: or better, replace it with text-overflow css property
+                                        // TODO: I am also wondering if we could not hide the "browse all courses + icon" link.
                                         if ($('body').width() > 750) {
                                             if (categoriestitle.length > 140 ) {
                                                 categoriestitle = categoriestitle.substr(0, 137) + "...";
@@ -102,15 +125,21 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             var h2 = $('section#fixy-my-courses div h2');
 
             var menu_mycategory_li_callback = function(element) {
-                var selectmenuoption = element.find( '.menu_mycategory' );
-                if (selectmenuoption.hasClass('menu_mycategory_selected')) {
-                    element.attr('aria-checked', false);
-                    selectmenuoption.removeClass('menu_mycategory_selected');
-                    doAjax('remove', selectmenuoption.attr('data-categoryid'));
+
+                var selectmenuoption = element.find( 'input' );
+
+                if (selectmenuoption.is(":checked")) {
+
+                    // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
+                    selectmenuoption.prop('checked', false);
+
+                    doAjax('remove', selectmenuoption.attr('selected-categoryid'));
                 } else {
-                    element.attr('aria-checked', true);
-                    selectmenuoption.addClass('menu_mycategory_selected');
-                    doAjax('add', selectmenuoption.attr('data-categoryid'));
+
+                    // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
+                    selectmenuoption.prop('checked', true);
+
+                    doAjax('add', selectmenuoption.attr('selected-categoryid'));
                 }
             };
 
@@ -137,6 +166,9 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 $(".catfilter").css('display', 'inline');
                 $(".allcourses").css('display', 'none');
+
+                // set user preferences for the viewing mode.
+                viewingMode('all');
             };
             $(".allcourses").click(
                 allcourses_callback
@@ -152,6 +184,9 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 $(".catfilter").css('display', 'none');
                 $(".allcourses").css('display', 'inline');
+
+                // set user preferences for the viewing mode.
+                viewingMode('categories');
             };
 
             $(".catfilter").click(catfilter_callback);
@@ -206,6 +241,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 }
             );
 
+            // initialise the viewing mode.
+            viewingMode("get");
 
         }
 

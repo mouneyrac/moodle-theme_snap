@@ -48,5 +48,13 @@ $functions = [
         'ajax'          => true,
         'loginrequired' => true
     ],
+    'theme_snap_user_viewing_mode' => [
+        'classname'     => 'theme_snap\\webservice\\ws_user_categories',
+        'methodname'    => 'user_viewing_mode',
+        'description'   => 'get or set the user viewing mode',
+        'type'          => 'write',
+        'ajax'          => true,
+        'loginrequired' => true
+    ],
 ];
 

@@ -776,6 +776,16 @@ class theme_snap_core_renderer extends toc_renderer {
 
             $coursesmenu = get_string('courses');
 
+            // Retrieve user preferences filter.
+            $viewingmode = get_user_preferences('theme_snap_personal_menu_viewing_mode');
+            if (!empty($viewingmode) and $viewingmode == 'categories') {
+                $allcoursesvisibility = 'personalmenuitemvisible';
+                $selectedcatvisibility = 'personalmenuitemnotvisible';
+            } else {
+                $allcoursesvisibility = 'personalmenuitemnotvisible';
+                $selectedcatvisibility = 'personalmenuitemvisible';
+            }
+
             $courselist .= '
                 <section id="fixy-my-courses">
                     <div class="clearfix">
@@ -786,8 +796,8 @@ class theme_snap_core_renderer extends toc_renderer {
                                 class="editcat menu-btn" tabindex=0 >change</button>
                         </div>
                         <div class="user_category_filter_links">
-                            <span class="allcourses" tabindex=0 ><a>Display all courses</a></span>
-                            <span class="catfilter" tabindex=0 ><a>Filter by categories</a></span>
+                            <span class="allcourses '.$allcoursesvisibility.'" tabindex=0 ><a>Display all courses</a></span>
+                            <span class="catfilter '.$selectedcatvisibility.'" tabindex=0 ><a>View Categories</a></span>
                         </div>
                     ';
 
@@ -843,10 +853,18 @@ class theme_snap_core_renderer extends toc_renderer {
                     $firstcategory = 'menu_mycategory_li_'.$mycategory;
                 }
                 $categoryhtmllisting .= ' 
-                    <li role=checkbox aria-checked=false tabindex=0  id="menu_mycategory_li_'.$mycategory.'" class="pushy-submenu menu_mycategory_li">
-                        <span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#">'
+                    <li role=checkbox aria-checked=false tabindex=0  id="menu_mycategory_li_'.$mycategory.'" 
+                        class="pushy-submenu menu_mycategory_li">
+                  
+                    <input aria-label="' . $categoryname . '" selected-categoryid='.$mycategory.' class="menu_mycategory" 
+                        type="checkbox" id="menu_mycategory_'.$mycategory.'" name="menu_mycategory_'.$mycategory.'" value="' . $categoryname . '" />
+                    <label for="menu_mycategory_'.$mycategory.'">
+                      <span><!-- This span is needed to create the "checkbox" element --></span> ' . $categoryname . '
+                    </label>
+                   
+                        <!--span aria-label="' . $categoryname . '" data-categoryid='.$mycategory.' class="menu_mycategory" id="menu_mycategory_'.$mycategory.'" href="#">'
                             .$categoryname.'
-                        </span>
+                        </span-->
                     </li>';
 
             }

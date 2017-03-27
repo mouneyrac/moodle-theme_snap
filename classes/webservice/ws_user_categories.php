@@ -27,14 +27,14 @@ require_once(__DIR__ . '/../../../../lib/externallib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class ws_user_categories extends \external_api {
+
     /**
      * @return \external_function_parameters
      */
     public static function user_categories_parameters() {
         $parameters = [
-            'userid' => new \external_value(PARAM_INT, 'User id', VALUE_REQUIRED),
-            'categoryid' => new \external_value(PARAM_INT, 'Category id', VALUE_DEFAULT, 0),
             'action' => new \external_value(PARAM_ALPHA, 'add, remove, list', VALUE_REQUIRED),
+            'categoryid' => new \external_value(PARAM_INT, 'Category id', VALUE_DEFAULT, 0)
         ];
         return new \external_function_parameters($parameters);
     }
@@ -57,7 +57,7 @@ class ws_user_categories extends \external_api {
      * @param $add
      * @return array
      */
-    public static function user_categories($userid, $categoryid, $action) {
+    public static function user_categories($action, $categoryid = 0) {
 
         //TODO: support for querying someone else preferences (don't forget to check permissions, probably only admins.)
 
@@ -65,7 +65,6 @@ class ws_user_categories extends \external_api {
         $params = self::validate_parameters(
             self::user_categories_parameters(),
             array(
-                'userid' => $userid,
                 'categoryid' => $categoryid,
                 'action' => $action
             )
@@ -75,9 +74,10 @@ class ws_user_categories extends \external_api {
         $usercategories = (array) json_decode($usercategories);
 
         $catid = $params['categoryid'];
+
         switch ($params['action']) {
             case 'add':
-                $usercategories[$catid] = $catid;
+                $usercategories['catid_'.$catid] = $catid;
                 set_user_preference('theme_snap_menu_categories', json_encode($usercategories));
                 break;
             case 'remove':
@@ -101,5 +101,60 @@ class ws_user_categories extends \external_api {
         $listing .= "]";
 
         return array('listing' => $listing);
+    }
+
+    /**
+     * @return \external_function_parameters
+     */
+    public static function user_viewing_mode_parameters() {
+        $parameters = [
+            'value' => new \external_value(PARAM_ALPHA, 'categories || all || get (to just retrieve the value and not set it)',
+                VALUE_DEFAULT, "get")
+        ];
+        return new \external_function_parameters($parameters);
+    }
+
+    /**
+     * @return \external_single_structure
+     */
+    public static function user_viewing_mode_returns() {
+        $keys = [
+            'value' => new \external_value(PARAM_ALPHA, 'categories || all', VALUE_REQUIRED),
+            'error' => new \external_value(PARAM_TEXT, 'error message - if any', VALUE_DEFAULT, '')
+        ];
+
+        return new \external_single_structure($keys, 'result');
+    }
+
+    /**
+     * @param $value
+     * @return array
+     */
+    public static function user_viewing_mode($value = "get") {
+
+        // Parameter validation.
+        $params = self::validate_parameters(
+            self::user_viewing_mode_parameters(),
+            array(
+                'value' => $value
+            )
+        );
+
+        $error = '';
+
+        if ($params['value'] == "get" || empty($params['value'])) {
+            $value = get_user_preferences('theme_snap_personal_menu_viewing_mode');
+        } else {
+
+            if ($params['value'] != 'categories' && $params['value'] != 'all') {
+                $error = 'Unknown value';
+            } else {
+                set_user_preference('theme_snap_personal_menu_viewing_mode', $params['value']);
+            }
+
+
+        }
+
+        return array('value' => $value, 'error' => $error);
     }
 }

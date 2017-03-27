@@ -561,7 +561,10 @@ img.iconhelp:hover {
 }
 
 .selectcat {
-    margin: 26px;
+    font-size: larger;
+    margin: 0px;
+    margin-bottom: 26px;
+    text-align: center;
     color: @body-bg;
 }
 
@@ -592,8 +595,15 @@ img.iconhelp:hover {
     padding: 0px;
 }
 
-.allcourses {
+.personalmenuitemvisible {
+    display:inline;
+}
+
+.personalmenuitemnotvisible {
     display:none;
+}
+
+.allcourses {
     cursor: pointer;
 }
 
@@ -602,7 +612,9 @@ img.iconhelp:hover {
 }
 
 .pushy-submenu.menu_mycategory_li {
-    margin: 26px;
+    margin: 0px;
+    margin-left: 15px;
+    margin-bottom: 5px;
     cursor:pointer;
 }
 
@@ -620,4 +632,129 @@ img.iconhelp:hover {
 
 #fixy-visible-courses {
     margin-top: 20px;
+}
+
+.pushy-content label {
+    display: inline-block; // to make it easier to click
+    color: @brand-primary-light;
+    cursor: pointer;
+    position: relative; // important
+
+    // Now we'll create the checkbox object
+
+    span {
+        display: inline-block;
+        position: relative;
+        background-color: transparent;
+        width: 25px;
+        height: 25px;
+        transform-origin: center;
+        border: 2px solid @brand-primary-light;
+        border-radius: 50%;
+        vertical-align: -6px;
+        margin-right: 10px;
+        transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89); // custom ease effect for bouncy animation
+
+        // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
+
+        &:before {
+            content: "";
+            width: 0px;
+            height: 2px;
+            border-radius: 2px; // so that the tick has nice rounded look
+            background: @body-bg;
+            position: absolute;
+            transform: rotate(45deg);
+            top: 11px; // you'll need to experiment with placement depending on the dimensions you've chosen
+            left: 7px; // you'll need to experiment with placement depending on the dimensions you've chosen
+            transition: width 50ms ease 50ms;
+            transform-origin: 0% 0%;
+        }
+
+        &:after {
+            content: "";
+            width: 0;
+            height: 2px;
+            border-radius: 2px; // so that the tick has nice rounded look
+            background: @body-bg;
+            position: absolute;
+            transform: rotate(305deg);
+            top: 14px; // you'll need to experiment with placement depending on the dimensions you've chosen
+            left: 8px; // you'll need to experiment with placement depending on the dimensions you've chosen
+            transition: width 50ms ease;
+            transform-origin: 0% 0%;
+        }
+    }
+    // Time to add some life to it
+
+    &:hover {
+        span {
+            &:before {
+                width: 5px;
+                transition: width 100ms ease;
+            }
+
+            &:after {
+                width: 10px;
+                transition: width 150ms ease 100ms;
+            }
+        }
+    }
+}
+
+.pushy-content label {
+    font-weight: inherit;
+}
+
+.pushy-content input[type="checkbox"] {
+    display: none; // hide the system checkbox
+
+    // Let's add some effects after the checkbox is checked
+
+    &:checked {
+        + label {
+            font-weight: inherit;
+            color: @body-bg;
+            span {
+
+                background-color: @body-bg;
+
+                transform: scale(1.10); // enlarge the box
+
+                border: 2px solid @body-bg;
+
+
+                &:after {
+                    width: 10px;
+                    background: @brand-primary;
+                    transition: width 150ms ease 100ms; // enlarge the tick
+                }
+
+                &:before {
+                    width: 5px;
+                    background: @brand-primary;
+                    transition: width 150ms ease 100ms; // enlarge the tick
+                }
+            }
+
+            &:hover { // copy the states for onMouseOver to avoid flickering
+                span {
+                    background-color: @body-bg;
+                    transform: scale(1.10); // enlarge the box
+
+                    &:after {
+                        width: 10px;
+                        background: @brand-primary;
+                        transition: width 150ms ease 100ms; // enlarge the tick
+                    }
+
+                    &:before {
+                        width: 5px;
+                        background: @brand-primary;
+                        transition: width 150ms ease 100ms; // enlarge the tick
+                    }
+                }
+            }
+        }
+    }
 }
