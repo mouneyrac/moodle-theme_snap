@@ -89,22 +89,22 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                         categoriestitle = categoriestitle + $(categorymenuoption).attr('value');
 
                                         // The title for desktop.
-                                        // TODO: replace this by 3 divs (always only one displayed), with 3 media queries
-                                        // TODO: or better, replace it with text-overflow css property
-                                        // TODO: I am also wondering if we could not hide the "browse all courses + icon" link.
-                                        if ($('body').width() > 750) {
-                                            if (categoriestitle.length > 140 ) {
-                                                categoriestitle = categoriestitle.substr(0, 137) + "...";
-                                            }
-                                        } else if ($('body').width() > 500) {
-                                            if (categoriestitle.length > 103 ) {
-                                                categoriestitle = categoriestitle.substr(0, 100) + "...";
-                                            }
-                                        } else {
-                                            if (categoriestitle.length > 18 ) {
-                                                categoriestitle = categoriestitle.substr(0, 15) + "...";
-                                            }
-                                        }
+                                        // // TODO: replace this by 3 divs (always only one displayed), with 3 media queries
+                                        // // TODO: or better, replace it with text-overflow css property
+                                        // // TODO: I am also wondering if we could not hide the "browse all courses + icon" link.
+                                        // if ($('body').width() > 750) {
+                                        //     if (categoriestitle.length > 140 ) {
+                                        //         categoriestitle = categoriestitle.substr(0, 137) + "...";
+                                        //     }
+                                        // } else if ($('body').width() > 500) {
+                                        //     if (categoriestitle.length > 103 ) {
+                                        //         categoriestitle = categoriestitle.substr(0, 100) + "...";
+                                        //     }
+                                        // } else {
+                                        //     if (categoriestitle.length > 18 ) {
+                                        //         categoriestitle = categoriestitle.substr(0, 15) + "...";
+                                        //     }
+                                        // }
                                     }
                                 );
                             }
