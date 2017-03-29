@@ -791,15 +791,19 @@ class theme_snap_core_renderer extends toc_renderer {
                     <div class="clearfix">
                         <div>
                             <h2 class="user_category_menu_title">' .$coursesmenu. '</h2>
+                            <div class="user_category_list"></div>
                             <button aria-label="change categories menu" title="change categories menu" 
                                 role="button" aria-controls="pushy" aria-expanded="false"
                                 class="editcat menu-btn" tabindex=0 >change</button>
-                        </div>
+                        </div>';
+            if (isloggedin()) {
+                $courselist .= '
                         <div class="user_category_filter_links">
-                            <span class="allcourses '.$allcoursesvisibility.'" tabindex=0 ><a>Display all courses</a></span>
-                            <span class="catfilter '.$selectedcatvisibility.'" tabindex=0 ><a>View Categories</a></span>
+                            <span class="allcourses ' . $allcoursesvisibility . '" tabindex=0 ><a>Display all courses</a></span>
+                            <span class="catfilter ' . $selectedcatvisibility . '" tabindex=0 ><a>View Categories</a></span>
                         </div>
                     ';
+            }
 
             $courselist .= '<div id="fixy-visible-courses">';
 

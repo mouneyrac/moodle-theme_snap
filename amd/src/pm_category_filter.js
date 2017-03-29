@@ -62,7 +62,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").prop('checked', false);
 
-                            var categoriestitle = ' ';
+                            var categoriestitle = '';
                             var categories = JSON.parse(response.listing);
                             if (categories.length == 0) {
                                 // and open category selector
@@ -108,7 +108,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                     }
                                 );
                             }
-                            h2.text(categoriestitle);
+                            h2.text('Viewing');
+
+                            if (categoriestitle == '') {
+                                categoriestitle = 'No categories selected';
+                            }
+
+                            $('.user_category_list').text(categoriestitle);
 
                             $('.editcat').css('visibility', 'visible');
 
@@ -164,6 +170,9 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 $(".courseinfo").css('display', 'inline-block');
 
+                // TODO: use the Moodle string.
+                h2.text('All courses');
+                $(".user_category_list").css('display', 'none');
                 $(".catfilter").css('display', 'inline');
                 $(".allcourses").css('display', 'none');
 
@@ -178,11 +187,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             });
 
             var catfilter_callback = function(){
-                h2.text('Categories: ');
+                h2.text('Viewing');
 
                 doAjax('listing');
 
                 $(".catfilter").css('display', 'none');
+                $(".user_category_list").css('display', 'block');
                 $(".allcourses").css('display', 'inline');
 
                 // set user preferences for the viewing mode.
@@ -241,8 +251,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 }
             );
 
-            // initialise the viewing mode.
-            viewingMode("get");
+            // initialise the viewing mode if logged in.
+            // TODO: better use the Moodle loggedin function somehow...
+            if ($('#fixy-logout').length ) {
+                viewingMode("get");
+            }
 
         }
 

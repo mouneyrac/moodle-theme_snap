@@ -24141,7 +24141,7 @@ img.iconhelp:hover {
   cursor: pointer;
   color: #03A9F4;
   margin: 0px;
-  padding: 0 0 0 10px;
+  padding: 0 0 0 0px;
   font-size: small;
   visibility: hidden;
 }
@@ -24149,6 +24149,10 @@ img.iconhelp:hover {
   .editcat.menu-btn {
     vertical-align: super;
   }
+}
+.user_category_list {
+  padding-top: 40px;
+  display: none;
 }
 .user_category_filter_links {
   font-size: small;
