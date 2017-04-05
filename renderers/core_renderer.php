@@ -789,12 +789,14 @@ class theme_snap_core_renderer extends toc_renderer {
             $courselist .= '
                 <section id="fixy-my-courses">
                     <div class="clearfix">
-                        <div>
+                        <div class="snap_pm_courses_section_title">
                             <h2 class="user_category_menu_title">' .$coursesmenu. '</h2>
-                            <div class="user_category_list"></div>
-                            <button aria-label="change categories menu" title="change categories menu" 
-                                role="button" aria-controls="pushy" aria-expanded="false"
-                                class="editcat menu-btn" tabindex=0 >change</button>
+                            <div class="snap_pm_category_filter_title">
+                                <div class="user_category_list"></div>
+                                <button aria-label="change categories menu" title="change categories menu" 
+                                    role="button" aria-controls="pushy" aria-expanded="false"
+                                    class="editcat menu-btn" tabindex=0 >change</button>
+                            </div>
                         </div>';
             if (isloggedin()) {
                 $courselist .= '

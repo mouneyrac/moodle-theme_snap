@@ -24114,6 +24114,12 @@ img.iconhelp:hover {
   border-color: #fff;
   background-color: #03A9F4;
 }
+.snap_pm_courses_section_title {
+  display: inline-block;
+}
+.snap_pm_category_filter_title {
+  display: block;
+}
 .pushy-content ul {
   list-style-type: none;
   padding: 0px;
@@ -24151,7 +24157,7 @@ img.iconhelp:hover {
   }
 }
 .user_category_list {
-  padding-top: 40px;
+  padding-top: 0px;
   display: none;
 }
 .user_category_filter_links {

@@ -108,7 +108,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                                     }
                                 );
                             }
-                            h2.text('Viewing');
+                            h2.text('Categories');
 
                             if (categoriestitle == '') {
                                 categoriestitle = 'No categories selected';
@@ -187,12 +187,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             });
 
             var catfilter_callback = function(){
-                h2.text('Viewing');
+                h2.text('Categories');
 
                 doAjax('listing');
 
                 $(".catfilter").css('display', 'none');
-                $(".user_category_list").css('display', 'block');
+                $(".user_category_list").css('display', 'inline-block');
                 $(".allcourses").css('display', 'inline');
 
                 // set user preferences for the viewing mode.
