@@ -167,14 +167,15 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 h2.text('All Courses');
                 $('.editcat').css('visibility', 'hidden');
+                $('.snap_pm_courses_section_title .snap_pm_category_filter_title').css('display', 'none');
 
                 $(".courseinfo").css('display', 'inline-block');
 
                 // TODO: use the Moodle string.
                 h2.text('All courses');
                 $(".user_category_list").css('display', 'none');
-                $(".catfilter").css('display', 'inline');
-                $(".allcourses").css('display', 'none');
+                $(".catfilter").removeClass('theme_snap_pm_active_link');
+                $(".allcourses").addClass('theme_snap_pm_active_link');
 
                 // set user preferences for the viewing mode.
                 viewingMode('all');
@@ -191,9 +192,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                 doAjax('listing');
 
-                $(".catfilter").css('display', 'none');
+                $(".catfilter").addClass('theme_snap_pm_active_link');
                 $(".user_category_list").css('display', 'inline-block');
-                $(".allcourses").css('display', 'inline');
+                $(".allcourses").removeClass('theme_snap_pm_active_link');
+                $('.snap_pm_courses_section_title .snap_pm_category_filter_title').css('display', 'block');
 
                 // set user preferences for the viewing mode.
                 viewingMode('categories');
@@ -255,6 +257,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
             // TODO: better use the Moodle loggedin function somehow...
             if ($('#fixy-logout').length ) {
                 viewingMode("get");
+
+                $('.snap_pm_courses_section_title .snap_pm_category_filter_title').css('display', 'none');
             }
 
         }

@@ -199,7 +199,7 @@ class theme_snap_core_renderer extends toc_renderer {
         $text = get_string($langstring, 'theme_snap');
         $iconurl = $OUTPUT->pix_url($iconname, 'theme');
         $icon = '<img class="svg-icon" role="presentation" src="' .$iconurl. '">';
-        $link = '<a class="snap-personal-menu-more" href="' .$url. '"><small>' .$text. '</small>' .$icon. '</a>';
+        $link = '<a class="snap-personal-menu-more '.$iconname.'" href="' .$url. '"><small>' .$text. '</small>' .$icon. '</a>';
         return $link;
     }
 
@@ -779,18 +779,27 @@ class theme_snap_core_renderer extends toc_renderer {
             // Retrieve user preferences filter.
             $viewingmode = get_user_preferences('theme_snap_personal_menu_viewing_mode');
             if (!empty($viewingmode) and $viewingmode == 'categories') {
-                $allcoursesvisibility = 'personalmenuitemvisible';
-                $selectedcatvisibility = 'personalmenuitemnotvisible';
+                $allcoursesvisibility = '';
+                $selectedcatvisibility = 'theme_snap_pm_active_link';
             } else {
-                $allcoursesvisibility = 'personalmenuitemnotvisible';
-                $selectedcatvisibility = 'personalmenuitemvisible';
+                $allcoursesvisibility = 'theme_snap_pm_active_link';
+                $selectedcatvisibility = '';
             }
 
             $courselist .= '
                 <section id="fixy-my-courses">
                     <div class="clearfix">
                         <div class="snap_pm_courses_section_title">
-                            <h2 class="user_category_menu_title">' .$coursesmenu. '</h2>
+                            <!--button class="user_category_menu_title user_category_menu_allcourses_title btn btn-default">All courses</button>
+                            <button class="user_category_menu_title user_category_menu_categories_title btn btn-default">Categories</button-->
+                            <ul class="nav nav-tabs" style="border: 0px">
+                              <li role="presentation">
+                              <a class="allcourses theme_snap_pm_firstmenuitem '.$allcoursesvisibility.'" href="#">All courses</a></li>
+                              <li role="presentation">
+                                <a href="#" class="catfilter  '.$selectedcatvisibility.'">Categories</a>
+                                </li>
+                              <!-- li role="presentation"><a href="#">UOP Monthly</a></li-->
+                            </ul>
                             <div class="snap_pm_category_filter_title">
                                 <div class="user_category_list"></div>
                                 <button aria-label="change categories menu" title="change categories menu" 
@@ -800,10 +809,10 @@ class theme_snap_core_renderer extends toc_renderer {
                         </div>';
             if (isloggedin()) {
                 $courselist .= '
-                        <div class="user_category_filter_links">
+                        <!--div class="user_category_filter_links">
                             <span class="allcourses ' . $allcoursesvisibility . '" tabindex=0 ><a>Display all courses</a></span>
                             <span class="catfilter ' . $selectedcatvisibility . '" tabindex=0 ><a>View Categories</a></span>
-                        </div>
+                        </div-->
                     ';
             }
 
