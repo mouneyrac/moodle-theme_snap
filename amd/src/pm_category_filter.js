@@ -61,6 +61,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             // hide all courses
                             $(".courseinfo").css('display', 'none');
                             $(".menu_mycategory").prop('checked', false);
+                            $(".pushy-content ul li").attr('aria-checked', false);
 
                             var categoriestitle = '';
                             var categories = JSON.parse(response.listing);
@@ -72,6 +73,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                             } else {
                                 // only display the selected categories
                                 var firstcategory = true;
+
                                 categories.forEach(
                                     function(item, index) {
                                         $("[data-categoryid="+item+"]").css('display', 'inline');
@@ -137,13 +139,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 if (selectmenuoption.is(":checked")) {
 
                     // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
-                    selectmenuoption.prop('checked', false);
+                    // selectmenuoption.prop('checked', false);
 
                     doAjax('remove', selectmenuoption.attr('selected-categoryid'));
                 } else {
 
                     // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
-                    selectmenuoption.prop('checked', true);
+                    // selectmenuoption.prop('checked', true);
 
                     doAjax('add', selectmenuoption.attr('selected-categoryid'));
                 }
@@ -222,15 +224,27 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 //if (event.which == 13 || event.which == 32) editcat_callback();
             });
 
-            $(".editcat").keydown(function() {
+            // $(".editcat").keydown(function() {
+            //
+            //     // Do not exit the change category menu if menu is expanded.
+            //     if (event.which == 9) {
+            //         if($(".editcat").attr('aria-expanded') == 'true') {
+            //             $('.pushy-content').focus();
+            //         }
+            //     }
+            // });
 
+            // Do not exist menu if expanded
+            $(".pushy-content ul li:last-child").keydown(function() {
                 // Do not exit the change category menu if menu is expanded.
                 if (event.which == 9) {
+
                     if($(".editcat").attr('aria-expanded') == 'true') {
                         $('.pushy-content').focus();
                     }
                 }
             });
+
 
             $("body").keydown(function() {
                 if (event.which == 27) {
