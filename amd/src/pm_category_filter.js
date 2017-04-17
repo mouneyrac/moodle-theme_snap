@@ -58,58 +58,66 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                         methodname: 'theme_snap_user_categories',
                         args: {action: action, categoryid: categoryid},
                         done: function(response) {
-                            // hide all courses
-                            $(".courseinfo").css('display', 'none');
-                            $(".menu_mycategory").prop('checked', false);
-                            $(".pushy-content ul li").attr('aria-checked', false);
+                            
+                            // Retrieve all categories.
+                            var menucategories = {};
+                            $(".pushy-content ul li").each(function(index) {
+                                menucategories[$(this).find('input').attr('selected-categoryid')] = $(this).attr('aria-checked');
+                            });
 
                             var categoriestitle = '';
                             var categories = JSON.parse(response.listing);
+                            console.log(categories);
+                              
+                            // only display the selected categories
+                            var firstcategory = true;
+
+                            // Display the checked categories.
+                            categories.forEach(
+                                function(item, index) {
+                                    
+                                    // If the categories was previously unchecked, then declare it as checked.
+                                    if (menucategories[item] === 'false') {
+                                        $("[data-categoryid="+item+"]").css('display', 'inline');
+                                        // $(".menu_mycategory[data-categoryid="+item+"]").addClass('menu_mycategory_selected');
+                                        $("[selected-categoryid="+item+"]").prop('checked', true);
+                                        $("#menu_mycategory_li_"+item).attr('aria-checked', 'true');
+                                    }
+                                    
+                                    // Add the category name to the menu categories title.
+                                    if (!firstcategory) {
+                                        categoriestitle = categoriestitle + ', ';
+                                    } else {
+                                        firstcategory = false;
+                                    }
+                                    var categorymenuoption = '#menu_mycategory_'+item;
+                                    categoriestitle = categoriestitle + $(categorymenuoption).attr('value');
+                                }
+                            );
+                            
+                            // Do not display unchecked categories.
+                            for (var menucategoryid in menucategories) {
+                                
+                                if (categories.indexOf(parseInt(menucategoryid)) == -1) {
+                                    // hide the category courses.
+                                    $("[data-categoryid="+menucategoryid+"]").css('display', 'none');
+                                    
+                                    // uncheck the menu category only if it was previously checked.
+                                    if (menucategories[menucategoryid] === 'true' ) {
+                                        $("[selected-categoryid="+menucategoryid+"]").prop('checked', false);
+                                        $("#menu_mycategory_li_"+menucategoryid).attr('aria-checked', 'false');
+                                    }
+                                }
+                            }
+                            
+                            // If no categories are selected then automatically open the menu if it is not already open.    
                             if (categories.length == 0) {
                                 // and open category selector
                                if($('.site-overlay').css('display') == 'none') {
                                    $('.editcat').click();
                                }
-                            } else {
-                                // only display the selected categories
-                                var firstcategory = true;
-
-                                categories.forEach(
-                                    function(item, index) {
-                                        $("[data-categoryid="+item+"]").css('display', 'inline');
-                                        // $(".menu_mycategory[data-categoryid="+item+"]").addClass('menu_mycategory_selected');
-                                        $("[selected-categoryid="+item+"]").prop('checked', true);
-                                        $("#menu_mycategory_li_"+item).attr('aria-checked', 'true');
-                                        // Add the category name to the menu categories title.
-                                        if (!firstcategory) {
-                                            categoriestitle = categoriestitle + ', ';
-                                        } else {
-                                            firstcategory = false;
-                                        }
-                                        var categorymenuoption = '#menu_mycategory_'+item;
-
-                                        categoriestitle = categoriestitle + $(categorymenuoption).attr('value');
-
-                                        // The title for desktop.
-                                        // // TODO: replace this by 3 divs (always only one displayed), with 3 media queries
-                                        // // TODO: or better, replace it with text-overflow css property
-                                        // // TODO: I am also wondering if we could not hide the "browse all courses + icon" link.
-                                        // if ($('body').width() > 750) {
-                                        //     if (categoriestitle.length > 140 ) {
-                                        //         categoriestitle = categoriestitle.substr(0, 137) + "...";
-                                        //     }
-                                        // } else if ($('body').width() > 500) {
-                                        //     if (categoriestitle.length > 103 ) {
-                                        //         categoriestitle = categoriestitle.substr(0, 100) + "...";
-                                        //     }
-                                        // } else {
-                                        //     if (categoriestitle.length > 18 ) {
-                                        //         categoriestitle = categoriestitle.substr(0, 15) + "...";
-                                        //     }
-                                        // }
-                                    }
-                                );
-                            }
+                            }     
+                            
                             h2.text('Categories');
 
                             if (categoriestitle == '') {
@@ -120,8 +128,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
 
                             $('.editcat').css('visibility', 'visible');
 
-
-                            // if not empty then hide all the courses not in the currently selected categories + show
                         },
                         fail: function(response) {
                             notification.exception(response);
@@ -139,22 +145,27 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                 if (selectmenuoption.is(":checked")) {
 
                     // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
-                    // selectmenuoption.prop('checked', false);
+                    //selectmenuoption.prop('checked', false);
 
                     doAjax('remove', selectmenuoption.attr('selected-categoryid'));
                 } else {
 
                     // TODO: this is a ugly fix because but actually when clicking on the category, this function is called twice!
-                    // selectmenuoption.prop('checked', true);
+                    //selectmenuoption.prop('checked', true);
 
                     doAjax('add', selectmenuoption.attr('selected-categoryid'));
                 }
             };
 
-            var menu_mycategory_li_callback_this = function() {
+            var menu_mycategory_li_callback_this = function(event) {
+                
                 menu_mycategory_li_callback($(this));
+                
+                // Forbid the otherthing to happen (like triggering a second click on the element,
+                // as the element attr changed with pushy adding classes to the element)
+                event.stopPropagation();
+                event.preventDefault();
             }
-
 
             $('.menu_mycategory_li').click(
                 menu_mycategory_li_callback_this
@@ -244,7 +255,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification'],
                     }
                 }
             });
-
 
             $("body").keydown(function() {
                 if (event.which == 27) {

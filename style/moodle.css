@@ -24159,6 +24159,9 @@ img.iconhelp:hover {
 .user_category_list {
   padding-top: 0px;
   display: none;
+  font-size: small;
+  vertical-align: top;
+  line-height: 28px;
 }
 .user_category_filter_links {
   font-size: small;
@@ -24193,7 +24196,7 @@ img.iconhelp:hover {
   background-color: #03A9F4;
 }
 #fixy-visible-courses {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .pushy-content label {
   display: inline-block;
@@ -24286,6 +24289,40 @@ img.iconhelp:hover {
   width: 5px;
   background: #03A9F4;
   transition: width 150ms ease 100ms;
+}
+.snap_pm_courses_section_title ul li a:hover {
+  border-color: transparent;
+}
+.snap_pm_courses_section_title ul li a {
+  padding-top: 0.5em;
+  line-height: 1;
+}
+.snap_pm_courses_section_title ul {
+  font-size: 1rem;
+  font-weight: 500;
+}
+/* Do not display browse all course on mobile size as it overlap the menu. TODO: add it at the bottom in the renderer + media query */
+@media screen and (max-width: 768px) {
+  .snap-personal-menu-more.courses {
+    display: none;
+  }
+}
+.snap_pm_category_filter_title button {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 26px;
+  vertical-align: top;
+}
+.snap_pm_courses_section_title ul li a.theme_snap_pm_firstmenuitem {
+  padding-left: 0px;
+}
+.snap_pm_courses_section_title ul li a.theme_snap_pm_active_link,
+.snap_pm_courses_section_title ul li a.theme_snap_pm_active_link:hover,
+.snap_pm_courses_section_title ul li a.theme_snap_pm_active_link:active,
+.snap_pm_courses_section_title ul li a.theme_snap_pm_active_link:focus {
+  background-color: #eee;
+  border: 0px solid;
+  color: #565656;
 }
 .behat-site #fixy-user #fixy-logout {
   line-height: 1em;

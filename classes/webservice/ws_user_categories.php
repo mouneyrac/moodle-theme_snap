@@ -72,6 +72,8 @@ class ws_user_categories extends \external_api {
 
         $usercategories = get_user_preferences('theme_snap_menu_categories');
         $usercategories = (array) json_decode($usercategories);
+        
+        error_log(print_r($usercategories, true));
 
         $catid = $params['categoryid'];
 
@@ -87,6 +89,8 @@ class ws_user_categories extends \external_api {
             default:
                 break;
         }
+        
+        error_log(print_r($usercategories, true));
 
         $listing = "[";
         $notfirstitem = false;
